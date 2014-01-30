@@ -1,4 +1,7 @@
+<?php
+
 session_start();
+
 $csrf = new \kafene\Csrf();
 $csrf->setRequestParam('custom_csrf_token_param');
 
