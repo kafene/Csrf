@@ -1,5 +1,7 @@
 <?php
 
+// kafene\Csrf Example:
+
 session_start();
 
 $csrf = new \kafene\Csrf();
