@@ -87,7 +87,6 @@ class Csrf
         }
     }
 
-
     /** Setters and getters **/
 
 
@@ -187,11 +186,16 @@ class Csrf
      */
     public function getServerParam($format = 'php')
     {
+        $format = strtolower($format);
+
         if ($format === 'http') {
             // Translate HTTP_X_FOO to X-Foo
             $serverParam = $this->serverParam;
             $serverParam = strtolower($serverParam);
             $parts = explode('_', $serverParam);
+
+            unset($parts[0]); // HTTP_
+
             $parts = array_map('ucfirst', $parts);
             $serverParam = join('-', $parts);
 
@@ -235,7 +239,7 @@ class Csrf
      */
     public function getHashAlgorithm()
     {
-        return $this->hashAlgorithm();
+        return $this->hashAlgorithm;
     }
 
 
@@ -296,6 +300,8 @@ class Csrf
         }
 
         $token = $_SESSION[$this->key][$hash];
+
+        // Remove the token now that it has been used once.
         unset($_SESSION[$this->key][$hash]);
 
         try {
@@ -385,9 +391,9 @@ class Csrf
      */
     public function formInput()
     {
-        $format = '<input type="hidden" name="%s" value="%s">' . "\n";
+        $format = '<input type="hidden" name="%s" value="%s">';
 
-        return sprintf($format, $this->requestParam, $this->getToken());
+        return sprintf($format, $this->getRequestParam(), $this->getToken());
     }
 
     /**
@@ -398,9 +404,9 @@ class Csrf
      */
     public function metaTag()
     {
-        $format = '<meta name="%s" content="%s">' . "\n";
+        $format = '<meta name="%s" content="%s">';
 
-        return sprintf($format, $this->serverParam, $this->getToken());
+        return sprintf($format, $this->getServerParam("http"), $this->getToken());
     }
 
 
