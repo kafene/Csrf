@@ -17,7 +17,7 @@ class CsrfException extends \Exception {}
  * Original CSRF methodology is inspired by ircmaxell (PHP internals developer)
  * @see http://blog.ircmaxell.com/2013/02/preventing-csrf-attacks.html
  *
- * @copyright (c) 2013, Matthew Covey <matt@kafene.org>
+ * @copyright (c) 2013, kafene software (http://kafene.org/)
  * @license MIT <http://kafene.mit-license.org/>
  */
 class Csrf
